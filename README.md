@@ -1,6 +1,6 @@
 # ACM SIGspatial cup 2023
 ## Supraglacier lake detection from SCSI 
-
+후에 딥러닝 주요 모듈 및 쿠다버전 컴퓨터 gpu추가
 ## Dependencies
 - Python
 - Keras
@@ -13,7 +13,7 @@
 ## Contents
 There are three main scripts in this repo:
 - data_processing
-- 
+- util.py
 - 
 
 
@@ -28,9 +28,9 @@ Finally we have 8 channel iamges.
 - Red
 - NIR
 - SWIR
-- NDWI
-- NDWIice
-- NDSI)
+- NDWI (Normalized Difference Water Index)
+- NDWIice (Normalized Difference Water Index - ice)
+- NDSI (Normalized Difference Snow Index)
 
 ## Pre-processing
 
