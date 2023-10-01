@@ -6,8 +6,10 @@
 - Keras >=
 - OpenCV >=
 - Matplotlib >=
-- Numpy >=
-- Rasterio >=
+- Numpy >= 1.25.2
+- Rasterio >= 1.3.8
+- GDAL >= 3.6.2.
+- geopandas >= 0.14.0
 
 
 ## Contents
