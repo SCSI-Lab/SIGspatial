@@ -36,6 +36,4 @@ Finally we have 8 channel iamges.
 - We Pre-processing image for deep learning. Follow the code under condition.
 - We split image into 256 size.
 - Overlap 50% with each image on train image, and 0% on test image.
-
-- 
 - Make mask image by given lake polygon gpkg.
