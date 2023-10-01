@@ -5,9 +5,9 @@
 
 ## Contents
 There are three main scripts in this repo:
-- DataProcessing.ipynb
-- post_process.ipynb
-- Main.py
+- Implement_Jupyter
+ - DataProcessing.ipynb
+ - post_process.ipynb
 
 ## Data set
 We use additionally sentinel-2 image from "https://dataspace.copernicus.eu/browser/".
