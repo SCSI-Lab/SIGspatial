@@ -1,18 +1,18 @@
 # ACM SIGspatial cup 2023
 ## Supraglacier lake detection from SCSI 
-후에 딥러닝 주요 모듈 및 쿠다버전 컴퓨터 gpu추가
+후에 딥러닝 주요 모듈 및 쿠다버전 컴퓨터 gpu추가 / 구글드라이브 링크 추가
 ## Dependencies
-- Python
-- Keras
-- OpenCV
-- Matplotlib
-- Numpy
-- Rasterio
+- Python >=
+- Keras >=
+- OpenCV >=
+- Matplotlib >=
+- Numpy >=
+- Rasterio >=
 
 
 ## Contents
 There are three main scripts in this repo:
-- data_processing
+- data_processing.ipynb
 - util.py
 - 
 
@@ -33,4 +33,9 @@ Finally we have 8 channel iamges.
 - NDSI (Normalized Difference Snow Index)
 
 ## Pre-processing
+- We Pre-processing image for deep learning. Follow the code under condition.
+- We split image into 256 size.
+- Overlap 50% with each image on train image, and 0% on test image.
 
+- 
+- Make mask image by given lake polygon gpkg.
