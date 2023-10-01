@@ -33,6 +33,9 @@ Finally we have 8 channel iamges.
 - NDWIice (Normalized Difference Water Index - ice)
 - NDSI (Normalized Difference Snow Index)
 
+You can use 8 channel data here
+"https://drive.google.com/drive/folders/1Uua1HvDV0hWTl8zmdLOJ5lQij2ODxElm?usp=drive_link"
+
 ## Make data set
 - We Pre-processing image for deep learning. Follow the code under condition.
 - We split image into 256 size.
