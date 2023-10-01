@@ -12,9 +12,9 @@
 
 ## Contents
 There are three main scripts in this repo:
-- 1.data_processing
-- 2.
-- 3.
+- data_processing
+- 
+- 
 
 
 ## Data set
