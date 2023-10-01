@@ -12,13 +12,11 @@
 - GDAL >= 3.6.2.
 - geopandas >= 0.14.0
 
-
 ## Contents
 There are three main scripts in this repo:
 - DataProcessing.ipynb
 - util.py
 - Main.py
-
 
 ## Data set
 We use additionally sentinel-2 image from "https://dataspace.copernicus.eu/browser/".
@@ -35,7 +33,7 @@ Finally we have 8 channel iamges.
 - NDWIice (Normalized Difference Water Index - ice)
 - NDSI (Normalized Difference Snow Index)
 
-## Pre-processing
+## Make data set
 - We Pre-processing image for deep learning. Follow the code under condition.
 - We split image into 256 size.
 - Overlap 50% with each image on train image and test image.
