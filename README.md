@@ -1,6 +1,7 @@
 # ACM SIGspatial cup 2023
 ## Supraglacier lake detection from SCSI 
 후에 딥러닝 주요 모듈 및 쿠다버전 컴퓨터 gpu추가 / 구글드라이브 링크 추가
+
 ## Dependencies
 - Python >=
 - Keras >=
@@ -39,3 +40,9 @@ Finally we have 8 channel iamges.
 - We split image into 256 size.
 - Overlap 50% with each image on train image, and 0% on test image.
 - Make mask image by given lake polygon gpkg.
+
+## Post-processing
+- After the results came out, We Post-process our results.
+- First, we eliminate the Lake-polygons which don't match contest standards.
+- Second, we also eliminate the Lake-polygons which were predicted that will not be lakse based on our custom-dataset.
+- Post-processing procedure is simple, Just follow our jupyter-notebook.
