@@ -14,9 +14,9 @@
 
 ## Contents
 There are three main scripts in this repo:
-- data_processing.ipynb
+- DataProcessing.ipynb
 - util.py
-- 
+- Main.py
 
 
 ## Data set
