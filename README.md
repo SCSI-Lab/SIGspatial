@@ -5,7 +5,6 @@
 
 ## Contents
 There are three main scripts in this repo:
-- Implement_Jupyter
  - DataProcessing.ipynb
  - post_process.ipynb
 
