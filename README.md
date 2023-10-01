@@ -33,8 +33,12 @@ Finally we have 8 channel iamges.
 - NDWIice (Normalized Difference Water Index - ice)
 - NDSI (Normalized Difference Snow Index)
 
-You can use 8 channel data here
+You can use 8 channel data here, Our dataset saved in forder named OurDataset.
+You can download them nby date and region. (Data e.g. Greenland_sentinel2_19-06-03_region1.tif, mean 19-06-03 date region num 1)
+
 "https://drive.google.com/drive/folders/1Uua1HvDV0hWTl8zmdLOJ5lQij2ODxElm?usp=drive_link"
+
+Our Lake_polygon.gpkg Also in Google Drive folder named OurResult/lake_final.gpkg
 
 ## Make data set
 - We Pre-processing image for deep learning. Follow the code under condition.
