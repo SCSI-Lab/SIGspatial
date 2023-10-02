@@ -30,7 +30,7 @@ You can download them nby date and region. (Data e.g. Greenland_sentinel2_19-06-
 
 Our Lake_polygon.gpkg Also in Google Drive folder named OurResult/lake_final.gpkg
 
-## Make data set
+## Data-Precessing
 - We Pre-processing image for deep learning. Follow the code under condition.
 - We split image into 256 size.
 - Overlap 50% with each image on train image and test image.
