@@ -1,12 +1,12 @@
 # ACM SIGspatial cup 2023
 ## Supraglacier lake detection from SCSI 
-후에 딥러닝 주요 모듈 및 쿠다버전 컴퓨터 gpu추가 / 구글드라이브 링크 추가
-
 
 ## Contents
 There are three main scripts in this repo:
  - DataProcessing.ipynb
  - post_process.ipynb
+ - OurModel.ipynb
+ - utils.py
 
 ## Data set
 We use additionally sentinel-2 image from "https://dataspace.copernicus.eu/browser/".
