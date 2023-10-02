@@ -17,7 +17,7 @@ import tifffile as tiff
 import warnings
 
 # Update the base path to the correct data directory later
-# Used in makedir()
+# Used in makedir() , you should check the path Line 311~ 321
 base_path = "/home/u2018144071/SIG" 
 
 def merge_tiff(input_tiffs, output_path):
