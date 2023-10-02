@@ -18,7 +18,7 @@ import warnings
 
 # Update the base path to the correct data directory later
 # Used in makedir()
-base_path = "/home/u2018144071/SIG/data/base" 
+base_path = "/home/u2018144071/SIG" 
 
 def merge_tiff(input_tiffs, output_path):
     """
@@ -221,7 +221,7 @@ def split_samples_cloud(input_filenames, under=0.45, upper=0.75, rate=0.05):
 
     Notes
     -----
-    This function subsets samples from the input images, excluding those that contain edge pixels.
+    This function subsets samples from the input images, excluding those that contain many cloud pixels.
 
     '''
 
@@ -311,12 +311,12 @@ def make_nameslist(data_dict, image=True):
         for region in regions:
             if image:
                 # Construct the image file path
-                filepath = f"{base_path}/{date}_{region}/"
+                filepath = f"{base_path}/data/{date}_{region}/"
                 # Add all .tif files in the image folder to the names list
                 names += glob(filepath + '*.tif')
             else:
                 # Construct the label file path
-                filepath_label = f"{base_path}/{date}_{region}_mask/"
+                filepath_label = f"{base_path}/data/{date}_{region}_mask/"
                 # Add all .tif files in the label folder to the names list
                 names += glob(filepath_label + '*.tif')
 
@@ -384,8 +384,8 @@ def data_subsetting(data_dict, case_name, rate):
     test_label_names = label_names[ind_test]
 
     # Create directories and save the data subsets to a JSON file
-    os.makedirs(os.path.join('/home/u2018144071/SIG/result', case_name), exist_ok=True)
-    json_save_path = os.path.join('/home/u2018144071/SIG/result', case_name, case_name) + ".json"
+    os.makedirs(os.path.join(base_path, "result", case_name), exist_ok=True)
+    json_save_path = os.path.join(base_path, "result", case_name, case_name) + ".json"
 
     data = {
         "input_names": input_names.tolist(),
@@ -836,18 +836,18 @@ def save_result(case_name, model_name, y_result, input_names, train=True, whole=
     # Filter UserWarnings for a cleaner output
     warnings.filterwarnings("ignore", category=UserWarning)
 
-    # Base path for result storage
-    base_path = os.path.join("/home/u2018144071/SIG/result/", case_name, model_name)
+    # Save path for result storage
+    save_path = os.path.join(base_path, "result", case_name, model_name)
 
     # Create folders for storing model results
     if train:
-        result_path = os.path.join(base_path, "train_region/model_result/")
-        gpkg_path = os.path.join(base_path, "train_region/gpkg/")
-        merged_gpkg_path = os.path.join(base_path, "merged_gpkg")
+        result_path = os.path.join(save_path, "train_region/model_result/")
+        gpkg_path = os.path.join(save_path, "train_region/gpkg/")
+        merged_gpkg_path = os.path.join(save_path, "merged_gpkg")
     else:
-        result_path = os.path.join(base_path, "test_region/model_result/")
-        gpkg_path = os.path.join(base_path, "test_region/gpkg/")
-        merged_gpkg_path = os.path.join(base_path, "merged_gpkg")
+        result_path = os.path.join(save_path, "test_region/model_result/")
+        gpkg_path = os.path.join(save_path, "test_region/gpkg/")
+        merged_gpkg_path = os.path.join(save_path, "merged_gpkg")
 
     os.makedirs(result_path, exist_ok=True)
     os.makedirs(gpkg_path, exist_ok=True)
@@ -902,8 +902,8 @@ def save_result(case_name, model_name, y_result, input_names, train=True, whole=
         gdf.crs = crs
 
         if not whole:
-            save_path = os.path.join(gpkg_path, file_name + ".gpkg")
-            gdf.to_file(save_path, driver="GPKG")
+            gpkg_save_path = os.path.join(gpkg_path, file_name + ".gpkg")
+            gdf.to_file(gpkg_save_path, driver="GPKG")
 
         if i % 100 == 0:
             print("Merged {0}th images...{1} images are left...GOGOGOGOGO".format(i, (len(input_names)-i)))
