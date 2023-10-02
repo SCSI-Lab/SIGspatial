@@ -2,7 +2,7 @@
 ## Supraglacier lake detection from SCSI
 
 ## Contents
-There are three main scripts in this repo:
+There are three main scripts in this repository:
  - DataProcessing.ipynb
  - post_process.ipynb
  - OurModel.ipynb
