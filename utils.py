@@ -16,6 +16,10 @@ import rasterio
 import tifffile as tiff
 import warnings
 
+# Update the base path to the correct data directory later
+# Used in makedir()
+base_path = "/home/u2018144071/SIG/data/base" 
+
 def merge_tiff(input_tiffs, output_path):
     """
     Merge multiple TIFF images into a single TIFF file while preserving metadata.
@@ -195,32 +199,47 @@ def split_samples_edge(input_filenames):
 
     return flag
 
-#----------------------------------------------------지완 추가 구름제거 NDSI------------------------------#
-def split_samples_cloud(input_filenames):
+def split_samples_cloud(input_filenames, under=0.45, upper=0.75, rate=0.05):
     '''
     Subsetting samples appropriate for training
+    
+    Parameters
     ----------
-    가장자리가 포함된 사진이 train에 사용되지 않도록.
-    ----------
+    input_filenames : ndarray of filenames
+        An iterable containing the paths of input image files.
+
+    under : threshold value of cloud in NDSI band
+
+    over : threshold value of cloud in NDSI band
+
+    rate : ratio of cloud in each image
+
+    Returns
+    -------
+    list of bool
+        A list of booleans indicating whether each sample contains edge pixels.
+
+    Notes
+    -----
+    This function subsets samples from the input images, excluding those that contain edge pixels.
+
     '''
+
     size = 256  # Input image size
-    rate = 0.2  #
     thres = size * size * rate
-    under = 0.6
-    upper = 0.8    #
 
     L = len(input_filenames)
     flag = [] # return a list of booleans
     for i in range(L):
         sample_ = image_to_array([input_filenames[i]], size, channel = 8)
-        if np.sum((sample_[0,...,6] < upper and sample_[0,...,6] > under)) < thres: 
+
+        if np.sum((sample_[0,...,7] < upper) & (sample_[0,...,7] > under)) > thres:
             flag.append(False)
         else:
             flag.append(True)
     
     return flag
 
-#----------------------------------------------------지완 추가 구름제거 NDSI------------------------------#
 def split_samples_rock(input_filenames):
     '''
     Subsetting samples appropriate for training
@@ -280,8 +299,6 @@ def make_nameslist(data_dict, image=True):
     - For labels, file paths are constructed as "./SIG/data/{date}/{date}_{region}_mask".
 
     """
-
-    base_path = "/home/u2018144071/SIG/data/base"   # Update the base path to the correct data directory later
     
     # Initialize a list to store file paths
     names = []
@@ -903,97 +920,3 @@ def save_result(case_name, model_name, y_result, input_names, train=True, whole=
     merged_multipolygon.to_file(os.path.join(merged_gpkg_path, merged_gpkg_name), driver='GPKG')
 
     print("Task finished!")
-
-def elipsoid_calculate(polygon):
-    """
-    Calculate whether a given polygon can be approximated as an ellipse (or ellipsoid).
-
-    Parameters
-    ----------
-    polygon : Polygon
-        The input polygon to be analyzed.
-
-    Returns
-    -------
-    bool
-        True if the polygon can be approximated as an ellipse, False otherwise.
-
-    Notes
-    -----
-    This function checks if the polygon can be approximated as an ellipse based on its envelope.
-
-    """
-
-    # Get the exterior ring (outer boundary) of the polygon
-    exterior_ring = polygon.exterior
-
-    # Calculate the envelope (minimum bounding rectangle) of the exterior ring
-    envelope = exterior_ring.envelope
-
-    # Get the coordinates of the envelope's exterior
-    envelope_coords = list(envelope.exterior.coords)
-
-    # Calculate the semi-major and semi-minor axes lengths of the ellipse
-    r_x = (envelope_coords[2][0] - envelope_coords[0][0]) / 2
-    r_y = (envelope_coords[2][1] - envelope_coords[0][1]) / 2
-
-    # Check if the ratio of semi-major and semi-minor axes is within a reasonable range
-    # If the ratio is too large, the shape is not close to an ellipse
-    if r_x / r_y > 10 or r_y / r_x > 10:
-        return False
-    else:
-        return True
-
-def select_polygons_based_on_condition(input_path, output_path, threshold=100000.0, buf_dist=30):
-    """
-    Select polygons based on area and shape approximation conditions.
-
-    Parameters
-    ----------
-    input_path : str
-        File path to the input GeoPackage file containing polygons.
-    output_path : str
-        File path to save the selected polygons as a new GeoPackage file.
-    threshold : float, optional
-        Threshold for the minimum area of polygons to be selected, by default 100000.0.
-    buf_dist : float, optional
-        Buffer distance used for geometric operations, by default 30.
-
-    Returns
-    -------
-    None
-        The function saves the selected polygons to the specified output path.
-
-    Notes
-    -----
-    This function selects polygons based on specified area and shape approximation conditions.
-
-    """
-
-    # Read the input GeoPackage file and create a buffer around the polygons
-    gdf = gpd.read_file(input_path)
-    gdf_buffered = gdf.explode(index_parts=True).buffer(buf_dist)
-    gdf_buffered = gpd.GeoDataFrame(geometry=gdf_buffered)
-    combined_polygons = gdf_buffered.dissolve().explode(index_parts=True).buffer(-buf_dist)
-
-    # Initialize an array to store selected polygons
-    poly_arr = []
-
-    # Iterate over the combined polygons
-    for poly in combined_polygons:
-        if poly.geom_type == 'Polygon':
-            polygon = poly
-            if elipsoid_calculate(polygon) and polygon.area >= threshold:
-                poly_arr.append(polygon)
-        elif poly.geom_type == 'MultiPolygon':
-            for polygon in poly.geoms:
-                if elipsoid_calculate(polygon) and polygon.area >= threshold:
-                    poly_arr.append(polygon)
-
-    # Create a new GeoDataFrame with the selected polygons and assign the date attribute
-    gdf_selected = gpd.GeoDataFrame(geometry=poly_arr)
-    gdf_selected.crs = "EPSG:3857"
-    gdf_selected["date"] = gdf["date"]
-
-    # Save the selected polygons to the output GeoPackage file
-    gdf_selected.to_file(output_path, driver="GPKG")
